@@ -8,6 +8,11 @@ from PIL import Image
 
 
 def degrade(image: Image, passes: int) -> Image:
+    # If the image uses transparency (e.g. ico, png) we need to convert it,
+    # because jpeg doesn't support it
+    if image.mode in ("RGBA", "P"):
+        image = image.convert("RGB")
+
     # Store the original image dimensions
     orig_w = image.width
     orig_h = image.height
